@@ -35,7 +35,7 @@ public class JsonResponseDataMapper implements ResponseDataMapper {
 	}
 	
 	protected void writeResponseCode(ResponseCode r, Object... responseTextParam) throws IOException {
-		writer.name("Result")
+		writer.name("Status")
 			.beginObject()
 				.name("Code").value(r.getResponseCode())
 				.name("Text").value(String.format(r.getResponseText(), responseTextParam))
