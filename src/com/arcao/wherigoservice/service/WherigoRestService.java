@@ -146,7 +146,7 @@ public class WherigoRestService extends RestServlet {
 		
 		String content = getContent(hrh);
 		
-		Pattern p = Pattern.compile(Pattern.quote("http://coord.info/") + "([A-Za-z0-9-]+)");
+		Pattern p = Pattern.compile(">(GC[A-Z0-9]+)<");
 		Matcher m = p.matcher(content);
 		if (m.find() && m.groupCount() == 1) {
 			resp.writeGetCacheCodeFromGuidResponse(m.group(1));
