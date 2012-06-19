@@ -151,10 +151,16 @@ public class WherigoRestService extends RestServlet {
 		if (m.find() && m.groupCount() == 1) {
 			resp.writeGetCacheCodeFromGuidResponse(m.group(1));
 		} else {
-			resp.writeErrorResponse(ResponseCode.CacheNotFound);
+			p = Pattern.compile("\\((GC[A-Z0-9]+)\\)");
+			m = p.matcher(content);
+			if (m.find() && m.groupCount() == 1) {
+				resp.writeGetCacheCodeFromGuidResponse(m.group(1));
+			} else {
+				resp.writeErrorResponse(ResponseCode.CacheNotFound);
+			}
 		}
 	}
-	
+		
 	protected boolean handleConnectionError(HTTPRedirectHandler hrh, ResponseDataMapper resp) throws IOException {
 		if (hrh.getConnection().getResponseCode() != 200) {
 			resp.writeErrorResponse(ResponseCode.ConnectionError, hrh.getConnection().getResponseCode() + " " + hrh.getConnection().getResponseMessage());
