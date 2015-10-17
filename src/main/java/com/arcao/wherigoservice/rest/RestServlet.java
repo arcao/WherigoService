@@ -1,19 +1,18 @@
 package com.arcao.wherigoservice.rest;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.logging.Logger;
+import com.arcao.wherigoservice.datamapper.JsonResponseDataMapper;
+import com.arcao.wherigoservice.datamapper.ResponseDataMapper;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.arcao.wherigoservice.datamapper.JsonResponseDataMapper;
-import com.arcao.wherigoservice.datamapper.ResponseDataMapper;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 public class RestServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(RestServlet.class.getName());
@@ -38,7 +37,7 @@ public class RestServlet extends HttpServlet {
 		} else if (clazz.equals(Double.class)) {
 			return (T) new Double(value);
 		} else if (clazz.equals(Boolean.class)) {
-			return (T) new Boolean(value);
+			return (T) Boolean.valueOf(value);
 		}
 		
 		try {
@@ -64,7 +63,7 @@ public class RestServlet extends HttpServlet {
 
 			String methodName = pathParts[1];
 
-			Method m = getClass().getMethod(methodName, new Class[] { HttpServletRequest.class, ResponseDataMapper.class });		
+			Method m = getClass().getMethod(methodName, HttpServletRequest.class, ResponseDataMapper.class);
 			
 			ResponseDataMapper mapper = new JsonResponseDataMapper(req, resp);
 			
@@ -82,7 +81,7 @@ public class RestServlet extends HttpServlet {
 			m.invoke(this, req, mapper);
 			
 			mapper.flush();
-		} catch (SecurityException e) {
+		} catch (SecurityException | IllegalAccessException e) {
 			resp.sendError(403, e.getMessage());
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -90,9 +89,6 @@ public class RestServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			resp.sendError(400, e.getMessage());
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			resp.sendError(403, e.getMessage());
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			resp.sendError(503, e.getMessage());

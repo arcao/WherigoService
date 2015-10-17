@@ -2,7 +2,7 @@ package com.arcao.wherigoservice.datamapper;
 
 public enum ResponseCode {
 	Ok(0, "OK"),
-	InvalidCreditials(1, "Invalid creditials"),
+	InvalidCredentials(1, "Invalid credentials"),
 	InvalidSession(2, "Invalid session"),
 	CartridgeNotFound(10, "Cartridge not found"),
 	CacheNotFound(11, "Cache not found"),
@@ -12,7 +12,7 @@ public enum ResponseCode {
 	private final int responseCode;
 	private final String responseText;
 	
-	private ResponseCode(int responseCode, String responseText) {
+	ResponseCode(int responseCode, String responseText) {
 		this.responseCode = responseCode;
 		this.responseText = responseText;
 	}

@@ -1,5 +1,13 @@
 package com.arcao.wherigoservice.service;
 
+import com.arcao.wherigoservice.datamapper.ResponseCode;
+import com.arcao.wherigoservice.datamapper.ResponseDataMapper;
+import com.arcao.wherigoservice.rest.RestServlet;
+import com.sonalb.net.http.HTTPRedirectHandler;
+import com.sonalb.net.http.cookie.Cookie;
+import com.sonalb.net.http.cookie.CookieJar;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,16 +24,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.arcao.wherigoservice.datamapper.ResponseCode;
-import com.arcao.wherigoservice.datamapper.ResponseDataMapper;
-import com.arcao.wherigoservice.rest.RestServlet;
-import com.sonalb.net.http.HTTPRedirectHandler;
-import com.sonalb.net.http.cookie.Cookie;
-import com.sonalb.net.http.cookie.CookieJar;
-
-public class WherigoRestService extends RestServlet {		
+public class WherigoRestService extends RestServlet {
 	public void login(HttpServletRequest req, ResponseDataMapper resp) throws IOException {
 		String username = getParameter(req, String.class, "username", null);
 		String password = getParameter(req, String.class, "password", null);
@@ -35,7 +34,7 @@ public class WherigoRestService extends RestServlet {
 			return;
 		}
 		
-		Map<String, String> p = new HashMap<String, String>();
+		Map<String, String> p = new HashMap<>();
 		
 		HTTPRedirectHandler hrh = createGetUrl("http://www.wherigo.com/login/default.aspx?ReturnUrl=%2fhome.aspx", null);
 		
@@ -56,8 +55,8 @@ public class WherigoRestService extends RestServlet {
 		if (handleConnectionError(hrh, resp))
 			return;
 		
-		if (!hrh.getConnection().getURL().getPath().equals("/home.aspx")) {
-			resp.writeErrorResponse(ResponseCode.InvalidCreditials);
+		if (!"/home.aspx".equals(hrh.getConnection().getURL().getPath())) {
+			resp.writeErrorResponse(ResponseCode.InvalidCredentials);
 			return;
 		}
 			
@@ -126,7 +125,7 @@ public class WherigoRestService extends RestServlet {
 		
 		Collection<String> inputs = getFormInputs(content);
 		
-		Map<String, String> p = new HashMap<String, String>();
+		Map<String, String> p = new HashMap<>();
 		p.put("__VIEWSTATE", getFormInputValue(inputs, "__VIEWSTATE", ""));
 		p.put("ctl00$ContentPlaceHolder1$uxDeviceList", "4");
 		p.put("ctl00$ContentPlaceHolder1$btnDownload", "Download Now");
@@ -161,7 +160,7 @@ public class WherigoRestService extends RestServlet {
 		}
 	}
 		
-	protected boolean handleConnectionError(HTTPRedirectHandler hrh, ResponseDataMapper resp) throws IOException {
+	private static boolean handleConnectionError(HTTPRedirectHandler hrh, ResponseDataMapper resp) throws IOException {
 		if (hrh.getConnection().getResponseCode() != 200) {
 			resp.writeErrorResponse(ResponseCode.ConnectionError, hrh.getConnection().getResponseCode() + " " + hrh.getConnection().getResponseMessage());
 			return true;
@@ -170,7 +169,7 @@ public class WherigoRestService extends RestServlet {
 		return false;
 	}
 	
-	protected String getFormInputValue(Collection<String> inputCollection, String name, String defaultValue) {
+	private static String getFormInputValue(Collection<String> inputCollection, String name, String defaultValue) {
 		Pattern p = Pattern.compile("name\\s*=\\s*([\"'])" + Pattern.quote(name) + "\\1");
 		
 		for (String input : inputCollection) {
@@ -185,10 +184,10 @@ public class WherigoRestService extends RestServlet {
 		return defaultValue;
 	}
 	
-	protected Collection<String> getFormInputs(String content) {
+	private static Collection<String> getFormInputs(String content) {
 		Pattern p = Pattern.compile("<input[^>]*>");
 		
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		
 		Matcher m = p.matcher(content);
 		
@@ -202,7 +201,7 @@ public class WherigoRestService extends RestServlet {
 	
 	// ----------------------- Url Connection helper methods -------------------------------
 	
-	protected HTTPRedirectHandler createGetUrl(String url, CookieJar cookieJar) throws IOException {
+	private static HTTPRedirectHandler createGetUrl(String url, CookieJar cookieJar) throws IOException {
 		try {
 			HttpURLConnection huc = (HttpURLConnection) new URL(url).openConnection();
 
@@ -226,7 +225,7 @@ public class WherigoRestService extends RestServlet {
 		}
 	}
 	
-	protected HTTPRedirectHandler createPostUrl(String url, Map<String, String> body, CookieJar cookieJar) throws IOException {
+	private static HTTPRedirectHandler createPostUrl(String url, Map<String, String> body, CookieJar cookieJar) throws IOException {
 		// create body part
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, String> entry : body.entrySet()) {
@@ -241,7 +240,7 @@ public class WherigoRestService extends RestServlet {
 		return createPostUrl(url, sb.toString().getBytes(), cookieJar);
 	}
 	
-	protected HTTPRedirectHandler createPostUrl(String url, byte[] body, CookieJar cookieJar) throws IOException {
+	private static HTTPRedirectHandler createPostUrl(String url, byte[] body, CookieJar cookieJar) throws IOException {
 		try {
 			HttpURLConnection huc = (HttpURLConnection) new URL(url).openConnection();
 			
@@ -272,7 +271,7 @@ public class WherigoRestService extends RestServlet {
 		}
 	}
 	
-	protected String getContent(HTTPRedirectHandler hrh) throws IOException {
+	private static String getContent(HTTPRedirectHandler hrh) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		
 		InputStream is = hrh.getConnection().getInputStream();
