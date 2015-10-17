@@ -114,12 +114,12 @@ public class WherigoRestService extends RestServlet {
 		
 		String content = getContent(hrh);
 
-		if (content.indexOf("Not Signed In") != -1) {
+		if (content.contains("Not Signed In")) {
 			resp.writeErrorResponse(ResponseCode.InvalidSession);
 			return;
 		}
 		
-		if (content.indexOf("ctl00$ContentPlaceHolder1$uxDeviceList") == -1) {
+		if (!content.contains("ctl00$ContentPlaceHolder1$uxDeviceList")) {
 			resp.writeErrorResponse(ResponseCode.ApiError, "Cartridge download isn't possible");
 			return;
 		}
