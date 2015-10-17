@@ -151,7 +151,7 @@ public class WherigoRestService extends RestServlet {
 		if (m.find() && m.groupCount() == 1) {
 			resp.writeGetCacheCodeFromGuidResponse(m.group(1));
 		} else {
-			p = Pattern.compile("\\((GC[A-Z0-9]+)\\)");
+			p = Pattern.compile("wp=(GC[A-Z0-9]+)&amp;title");
 			m = p.matcher(content);
 			if (m.find() && m.groupCount() == 1) {
 				resp.writeGetCacheCodeFromGuidResponse(m.group(1));
