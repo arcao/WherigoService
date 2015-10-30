@@ -71,7 +71,7 @@ public class RestServlet extends HttpServlet {
 			if (req.getParameter("debug") != null) {
 				resp.setContentType("text/plain;charset=UTF-8");
 			} else {
-				resp.setContentType("text/javascript;charset=UTF-8");
+				resp.setContentType("application/json;charset=UTF-8");
 			}
 			
 			resp.setHeader("Expires", "Fri, 30 Oct 1998 14:19:41 GMT");
