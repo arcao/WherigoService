@@ -158,8 +158,7 @@ public class WherigoRestService extends RestServlet {
 	}
 
 	public void getTime(HttpServletRequest req, ResponseDataMapper resp) throws IOException {
-		long time = new Date().getTime();
-		resp.writeTimeResponse(time);
+		resp.writeTimeResponse(System.currentTimeMillis());
 	}
 		
 	private static boolean handleConnectionError(HTTPRedirectHandler hrh, ResponseDataMapper resp) throws IOException {
