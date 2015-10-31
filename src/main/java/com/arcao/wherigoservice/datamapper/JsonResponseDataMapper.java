@@ -1,16 +1,15 @@
 package com.arcao.wherigoservice.datamapper;
 
+import com.google.gson.stream.JsonWriter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.stream.JsonWriter;
 
 public class JsonResponseDataMapper implements ResponseDataMapper {
 	protected JsonWriter writer;
@@ -103,7 +102,20 @@ public class JsonResponseDataMapper implements ResponseDataMapper {
 		
 		writer.endObject();						
 	}
-	
+
+	@Override
+	public void writeTimeResponse(long time) throws IOException {
+		writer.beginObject();
+		writeResponseCode(ResponseCode.Ok);
+
+		writer.name("TimeResult")
+				.beginObject()
+				.name("Time").value(time)
+				.endObject();
+
+		writer.endObject();
+	}
+
 	public void flush() throws IOException {
 		writer.flush();
 	}

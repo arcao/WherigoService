@@ -7,17 +7,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>WherigoService</servlet-name>
 		<servlet-class>com.arcao.wherigoservice.service.WherigoRestService</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>ProxyService</servlet-name>
-		<servlet-class>com.arcao.geocachingapiproxyservice.ProxyServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
 		<servlet-name>WherigoService</servlet-name>
 		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ProxyService</servlet-name>
-		<url-pattern>/geocaching_proxy/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

@@ -73,9 +73,11 @@ public class RestServlet extends HttpServlet {
 			} else {
 				resp.setContentType("application/json;charset=UTF-8");
 			}
-			
-			resp.setHeader("Expires", "Fri, 30 Oct 1998 14:19:41 GMT");
-			resp.setHeader("Cache-Control", "no-cache, must-revalidate");
+
+			resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+			resp.setHeader("Expires", "0"); // Proxies.
+
 			resp.setCharacterEncoding("UTF-8");
 			
 			m.invoke(this, req, mapper);

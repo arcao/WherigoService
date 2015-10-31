@@ -9,6 +9,8 @@ public interface ResponseDataMapper {
 	void writeGetCartridgeResponse(String cartridgeGuid) throws IOException;
 	void writeGetCartridgeDownloadDataResponse(Map<String, String> formData, String session) throws IOException;
 	void writeGetCacheCodeFromGuidResponse(String cacheGuid) throws IOException;
-	
+	void writeTimeResponse(long time) throws IOException;
+
 	void flush() throws IOException;
+
 }

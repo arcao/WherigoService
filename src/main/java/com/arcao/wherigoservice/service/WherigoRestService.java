@@ -16,10 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -158,6 +155,11 @@ public class WherigoRestService extends RestServlet {
 				resp.writeErrorResponse(ResponseCode.CacheNotFound);
 			}
 		}
+	}
+
+	public void getTime(HttpServletRequest req, ResponseDataMapper resp) throws IOException {
+		long time = new Date().getTime();
+		resp.writeTimeResponse(time);
 	}
 		
 	private static boolean handleConnectionError(HTTPRedirectHandler hrh, ResponseDataMapper resp) throws IOException {
