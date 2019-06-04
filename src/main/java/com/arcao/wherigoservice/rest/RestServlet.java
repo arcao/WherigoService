@@ -3,7 +3,6 @@ package com.arcao.wherigoservice.rest;
 import com.arcao.wherigoservice.datamapper.JsonResponseDataMapper;
 import com.arcao.wherigoservice.datamapper.ResponseDataMapper;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +17,6 @@ public class RestServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(RestServlet.class.getName());
 	private static final long serialVersionUID = 7679840895295353407L;
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-
-	}
 	
 	@SuppressWarnings("unchecked")
 	protected static <T> T getParameter(HttpServletRequest req, Class<T> clazz, String name, T defaultValue) {

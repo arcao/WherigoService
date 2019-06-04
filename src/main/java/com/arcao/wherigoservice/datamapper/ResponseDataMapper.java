@@ -13,4 +13,6 @@ public interface ResponseDataMapper {
 
 	void flush() throws IOException;
 
+    void writeGuidToReferenceCode(String referenceCode) throws IOException;
+	void writeErrorV2Response(int responseCode, String statusMessage, String errorMessage) throws IOException;
 }

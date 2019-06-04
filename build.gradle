@@ -40,7 +40,7 @@ appengineStage.dependsOn test
 appengine {
     deploy {
         version = '3'
-        project = 'wherigo-service'
+        projectId = 'wherigo-service'
     }
 }
 
