@@ -1,1 +1,3 @@
 rootProject.name = 'wherigoservice'
+
+include ':app-engine'

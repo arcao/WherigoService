@@ -1,0 +1,52 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'com.google.cloud.tools.appengine'
+
+dependencies {
+    compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.91'
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+
+    compile 'jstl:jstl:1.2'
+    compile 'com.google.code.gson:gson:2.8.8'
+
+    testCompile 'junit:junit:4.13.2'
+    testCompile 'com.google.truth:truth:1.1.3'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+
+    testCompile 'com.google.appengine:appengine-testing:1.9.91'
+    testCompile 'com.google.appengine:appengine-api-stubs:1.9.91'
+    testCompile 'com.google.appengine:appengine-tools-sdk:1.9.91'
+}
+
+// Always run unit tests
+appengineDeploy.dependsOn test
+appengineStage.dependsOn test
+
+appengine {
+    deploy {
+        version = '6'
+        projectId = 'wherigo-service'
+    }
+}
+
+test {
+    useJUnit()
+    testLogging.showStandardStreams = true
+    beforeTest { descriptor ->
+        logger.lifecycle("test: $descriptor  Running")
+    }
+
+    onOutput { descriptor, event ->
+        logger.lifecycle("test: $descriptor: ${event.message}")
+    }
+    afterTest { descriptor, result ->
+        logger.lifecycle("test: $descriptor: $result")
+    }
+}
+
+
+group = "com.arcao"
+version = "1.0-SNAPSHOT"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
