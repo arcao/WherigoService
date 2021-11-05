@@ -4,6 +4,11 @@
     <application>wherigo-service</application>
     <version>0</version>
     <threadsafe>true</threadsafe>
+    <instance-class>B1</instance-class>
+    <basic-scaling>
+        <max-instances>1</max-instances>
+        <idle-timeout>10m</idle-timeout>
+    </basic-scaling>
 
     <!--
       By default, App Engine sends requests serially to a given web server.
