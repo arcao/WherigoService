@@ -48,6 +48,7 @@ class MainController {
             val body = client.newCall(request).execute().body()?.charStream()?.readText().orEmpty()
             val matches = PATTERN.find(body)
             if (matches == null || matches.groups.size != 2) {
+                println(body)
                 throw ServiceException(HttpStatus.NOT_FOUND, "Geocache not found")
             }
 
